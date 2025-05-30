@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "1EuylF1yDzk=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\86132\\Desktop\\C#\\NoteBook\\Settings\\Settings.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\86132\\.nuget\\packages\\materialdesigncolors\\5.2.1\\materialdesigncolors.5.2.1.nupkg.sha512",
+    "C:\\Users\\86132\\.nuget\\packages\\materialdesignthemes\\5.2.1\\materialdesignthemes.5.2.1.nupkg.sha512",
+    "C:\\Users\\86132\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.39\\microsoft.xaml.behaviors.wpf.1.1.39.nupkg.sha512",
+    "C:\\Users\\86132\\.nuget\\packages\\prism.core\\8.1.97\\prism.core.8.1.97.nupkg.sha512",
+    "C:\\Users\\86132\\.nuget\\packages\\prism.wpf\\8.1.97\\prism.wpf.8.1.97.nupkg.sha512"
+  ],
+  "logs": []
+}

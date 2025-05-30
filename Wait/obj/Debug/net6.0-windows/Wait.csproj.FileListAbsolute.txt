@@ -1,0 +1,17 @@
+C:\Users\86132\Desktop\C#\NoteBook\Wait\bin\Debug\net6.0-windows\Wait.deps.json
+C:\Users\86132\Desktop\C#\NoteBook\Wait\bin\Debug\net6.0-windows\Wait.dll
+C:\Users\86132\Desktop\C#\NoteBook\Wait\bin\Debug\net6.0-windows\Wait.pdb
+C:\Users\86132\Desktop\C#\NoteBook\Wait\obj\Debug\net6.0-windows\Wait.csproj.AssemblyReference.cache
+C:\Users\86132\Desktop\C#\NoteBook\Wait\obj\Debug\net6.0-windows\Views\WaitUcView.g.cs
+C:\Users\86132\Desktop\C#\NoteBook\Wait\obj\Debug\net6.0-windows\Wait_MarkupCompile.cache
+C:\Users\86132\Desktop\C#\NoteBook\Wait\obj\Debug\net6.0-windows\Wait_MarkupCompile.lref
+C:\Users\86132\Desktop\C#\NoteBook\Wait\obj\Debug\net6.0-windows\Views\WaitUcView.baml
+C:\Users\86132\Desktop\C#\NoteBook\Wait\obj\Debug\net6.0-windows\Wait.g.resources
+C:\Users\86132\Desktop\C#\NoteBook\Wait\obj\Debug\net6.0-windows\Wait.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\86132\Desktop\C#\NoteBook\Wait\obj\Debug\net6.0-windows\Wait.AssemblyInfoInputs.cache
+C:\Users\86132\Desktop\C#\NoteBook\Wait\obj\Debug\net6.0-windows\Wait.AssemblyInfo.cs
+C:\Users\86132\Desktop\C#\NoteBook\Wait\obj\Debug\net6.0-windows\Wait.csproj.CoreCompileInputs.cache
+C:\Users\86132\Desktop\C#\NoteBook\Wait\obj\Debug\net6.0-windows\Wait.dll
+C:\Users\86132\Desktop\C#\NoteBook\Wait\obj\Debug\net6.0-windows\refint\Wait.dll
+C:\Users\86132\Desktop\C#\NoteBook\Wait\obj\Debug\net6.0-windows\Wait.pdb
+C:\Users\86132\Desktop\C#\NoteBook\Wait\obj\Debug\net6.0-windows\ref\Wait.dll

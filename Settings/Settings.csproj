@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+    <DebugType>none</DebugType>
+    <!-- 禁止生成 PDB 文件 -->
+    <DebugType>none</DebugType>
+    <!-- 禁止生成 XML 文档文件 -->
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>C:\Users\86132\Desktop\C#\NoteBook\NoteBook\bin\Debug\net6.0-windows\Apps</OutputPath>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <PackageOutputPath />
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
+    <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+  </ItemGroup>
+</Project>

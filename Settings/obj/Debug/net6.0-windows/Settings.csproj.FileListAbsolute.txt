@@ -1,0 +1,17 @@
+C:\Users\86132\Desktop\C#\NoteBook\Settings\bin\Debug\net6.0-windows\Settings.deps.json
+C:\Users\86132\Desktop\C#\NoteBook\Settings\bin\Debug\net6.0-windows\Settings.dll
+C:\Users\86132\Desktop\C#\NoteBook\Settings\bin\Debug\net6.0-windows\Settings.pdb
+C:\Users\86132\Desktop\C#\NoteBook\Settings\obj\Debug\net6.0-windows\Settings.csproj.AssemblyReference.cache
+C:\Users\86132\Desktop\C#\NoteBook\Settings\obj\Debug\net6.0-windows\Views\SettingsUcView.g.cs
+C:\Users\86132\Desktop\C#\NoteBook\Settings\obj\Debug\net6.0-windows\Settings_MarkupCompile.cache
+C:\Users\86132\Desktop\C#\NoteBook\Settings\obj\Debug\net6.0-windows\Settings_MarkupCompile.lref
+C:\Users\86132\Desktop\C#\NoteBook\Settings\obj\Debug\net6.0-windows\Views\SettingsUcView.baml
+C:\Users\86132\Desktop\C#\NoteBook\Settings\obj\Debug\net6.0-windows\Settings.g.resources
+C:\Users\86132\Desktop\C#\NoteBook\Settings\obj\Debug\net6.0-windows\Settings.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\86132\Desktop\C#\NoteBook\Settings\obj\Debug\net6.0-windows\Settings.AssemblyInfoInputs.cache
+C:\Users\86132\Desktop\C#\NoteBook\Settings\obj\Debug\net6.0-windows\Settings.AssemblyInfo.cs
+C:\Users\86132\Desktop\C#\NoteBook\Settings\obj\Debug\net6.0-windows\Settings.csproj.CoreCompileInputs.cache
+C:\Users\86132\Desktop\C#\NoteBook\Settings\obj\Debug\net6.0-windows\Settings.dll
+C:\Users\86132\Desktop\C#\NoteBook\Settings\obj\Debug\net6.0-windows\refint\Settings.dll
+C:\Users\86132\Desktop\C#\NoteBook\Settings\obj\Debug\net6.0-windows\Settings.pdb
+C:\Users\86132\Desktop\C#\NoteBook\Settings\obj\Debug\net6.0-windows\ref\Settings.dll

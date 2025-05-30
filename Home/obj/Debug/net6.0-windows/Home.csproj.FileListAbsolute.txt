@@ -1,0 +1,17 @@
+C:\Users\86132\Desktop\C#\NoteBook\Home\bin\Debug\net6.0-windows\Home.deps.json
+C:\Users\86132\Desktop\C#\NoteBook\Home\bin\Debug\net6.0-windows\Home.dll
+C:\Users\86132\Desktop\C#\NoteBook\Home\obj\Debug\net6.0-windows\Home.csproj.AssemblyReference.cache
+C:\Users\86132\Desktop\C#\NoteBook\Home\obj\Debug\net6.0-windows\Views\HomeUcView.g.cs
+C:\Users\86132\Desktop\C#\NoteBook\Home\obj\Debug\net6.0-windows\Home_MarkupCompile.cache
+C:\Users\86132\Desktop\C#\NoteBook\Home\obj\Debug\net6.0-windows\Home_MarkupCompile.lref
+C:\Users\86132\Desktop\C#\NoteBook\Home\obj\Debug\net6.0-windows\Views\HomeUcView.baml
+C:\Users\86132\Desktop\C#\NoteBook\Home\obj\Debug\net6.0-windows\Home.g.resources
+C:\Users\86132\Desktop\C#\NoteBook\Home\obj\Debug\net6.0-windows\Home.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\86132\Desktop\C#\NoteBook\Home\obj\Debug\net6.0-windows\Home.AssemblyInfoInputs.cache
+C:\Users\86132\Desktop\C#\NoteBook\Home\obj\Debug\net6.0-windows\Home.AssemblyInfo.cs
+C:\Users\86132\Desktop\C#\NoteBook\Home\obj\Debug\net6.0-windows\Home.csproj.CoreCompileInputs.cache
+C:\Users\86132\Desktop\C#\NoteBook\Home\obj\Debug\net6.0-windows\Home.dll
+C:\Users\86132\Desktop\C#\NoteBook\Home\obj\Debug\net6.0-windows\refint\Home.dll
+C:\Users\86132\Desktop\C#\NoteBook\Home\obj\Debug\net6.0-windows\ref\Home.dll
+C:\Users\86132\Desktop\C#\NoteBook\NoteBook\bin\Debug\net6.0-windows\Apps\net6.0-windows\Home.deps.json
+C:\Users\86132\Desktop\C#\NoteBook\NoteBook\bin\Debug\net6.0-windows\Apps\net6.0-windows\Home.dll

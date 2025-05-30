@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Image\db.png" />
+    <None Remove="Image\notFound.png" />
+    <None Remove="Image\user.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Prism.DryIoc" Version="8.1.97" />
+    <PackageReference Include="RestSharp" Version="106.15.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\db.png" />
+    <Resource Include="Image\notFound.png" />
+    <Resource Include="Image\user.jpg" />
+  </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+  </Target>
+</Project>

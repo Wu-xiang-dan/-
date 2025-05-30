@@ -1,0 +1,17 @@
+C:\Users\86132\Desktop\C#\NoteBook\Memo\bin\Debug\net6.0-windows\Memo.deps.json
+C:\Users\86132\Desktop\C#\NoteBook\Memo\bin\Debug\net6.0-windows\Memo.dll
+C:\Users\86132\Desktop\C#\NoteBook\Memo\bin\Debug\net6.0-windows\Memo.pdb
+C:\Users\86132\Desktop\C#\NoteBook\Memo\obj\Debug\net6.0-windows\Memo.csproj.AssemblyReference.cache
+C:\Users\86132\Desktop\C#\NoteBook\Memo\obj\Debug\net6.0-windows\Views\MemoUcView.g.cs
+C:\Users\86132\Desktop\C#\NoteBook\Memo\obj\Debug\net6.0-windows\Memo_MarkupCompile.cache
+C:\Users\86132\Desktop\C#\NoteBook\Memo\obj\Debug\net6.0-windows\Memo_MarkupCompile.lref
+C:\Users\86132\Desktop\C#\NoteBook\Memo\obj\Debug\net6.0-windows\Views\MemoUcView.baml
+C:\Users\86132\Desktop\C#\NoteBook\Memo\obj\Debug\net6.0-windows\Memo.g.resources
+C:\Users\86132\Desktop\C#\NoteBook\Memo\obj\Debug\net6.0-windows\Memo.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\86132\Desktop\C#\NoteBook\Memo\obj\Debug\net6.0-windows\Memo.AssemblyInfoInputs.cache
+C:\Users\86132\Desktop\C#\NoteBook\Memo\obj\Debug\net6.0-windows\Memo.AssemblyInfo.cs
+C:\Users\86132\Desktop\C#\NoteBook\Memo\obj\Debug\net6.0-windows\Memo.csproj.CoreCompileInputs.cache
+C:\Users\86132\Desktop\C#\NoteBook\Memo\obj\Debug\net6.0-windows\Memo.dll
+C:\Users\86132\Desktop\C#\NoteBook\Memo\obj\Debug\net6.0-windows\refint\Memo.dll
+C:\Users\86132\Desktop\C#\NoteBook\Memo\obj\Debug\net6.0-windows\Memo.pdb
+C:\Users\86132\Desktop\C#\NoteBook\Memo\obj\Debug\net6.0-windows\ref\Memo.dll

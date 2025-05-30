@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  
+    <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+    <DebugType>none</DebugType>
+    <!-- 禁止生成 PDB 文件 -->
+    <DebugType>none</DebugType>
+    <!-- 禁止生成 XML 文档文件 -->
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>C:\Users\86132\Desktop\C#\NoteBook\NoteBook\bin\Debug\net6.0-windows\Apps</OutputPath>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <PackageOutputPath />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MaterialDesignColors" Version="5.2.1" />
+    <PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+    <PackageReference Include="RestSharp" Version="106.15.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NoteBook\NoteBook.csproj" />
+  </ItemGroup>
+</Project>

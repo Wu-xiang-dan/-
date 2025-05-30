@@ -1,0 +1,73 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\86132\\Desktop\\C#\\NoteBook\\NoteBook.API\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{14089CDF-02B0-48AF-BC48-2BE380CB2880}|NoteBook.API\\NoteBook.API.csproj|c:\\users\\86132\\desktop\\c#\\notebook\\notebook.api\\notebook.api\\controllers\\waitcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{14089CDF-02B0-48AF-BC48-2BE380CB2880}|NoteBook.API\\NoteBook.API.csproj|solutionrelative:notebook.api\\controllers\\waitcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{14089CDF-02B0-48AF-BC48-2BE380CB2880}|NoteBook.API\\NoteBook.API.csproj|c:\\users\\86132\\desktop\\c#\\notebook\\notebook.api\\notebook.api\\controllers\\memocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{14089CDF-02B0-48AF-BC48-2BE380CB2880}|NoteBook.API\\NoteBook.API.csproj|solutionrelative:notebook.api\\controllers\\memocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{90243340-bd7a-11d0-93ef-00a0c90f2734}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "WaitController.cs",
+              "DocumentMoniker": "C:\\Users\\86132\\Desktop\\C#\\NoteBook\\NoteBook.API\\NoteBook.API\\Controllers\\WaitController.cs",
+              "RelativeDocumentMoniker": "NoteBook.API\\Controllers\\WaitController.cs",
+              "ToolTip": "C:\\Users\\86132\\Desktop\\C#\\NoteBook\\NoteBook.API\\NoteBook.API\\Controllers\\WaitController.cs",
+              "RelativeToolTip": "NoteBook.API\\Controllers\\WaitController.cs",
+              "ViewState": "AgIAAD0AAAAAAAAAAABBwIAAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-10T05:37:35.687Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MemoController.cs",
+              "DocumentMoniker": "C:\\Users\\86132\\Desktop\\C#\\NoteBook\\NoteBook.API\\NoteBook.API\\Controllers\\MemoController.cs",
+              "RelativeDocumentMoniker": "NoteBook.API\\Controllers\\MemoController.cs",
+              "ToolTip": "C:\\Users\\86132\\Desktop\\C#\\NoteBook\\NoteBook.API\\NoteBook.API\\Controllers\\MemoController.cs",
+              "RelativeToolTip": "NoteBook.API\\Controllers\\MemoController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAALAAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-10T05:37:30.77Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
