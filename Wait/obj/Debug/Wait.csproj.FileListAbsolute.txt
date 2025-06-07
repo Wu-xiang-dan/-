@@ -18,3 +18,6 @@ C:\Users\86132\Desktop\C#\NoteBook\Wait\obj\Debug\Wait.csproj.Up2Date
 C:\Users\86132\Desktop\C#\NoteBook\NoteBook\bin\Debug\net6.0-windows\Apps\NoteBook.deps.json
 C:\Users\86132\Desktop\C#\NoteBook\NoteBook\bin\Debug\net6.0-windows\Apps\NoteBook.runtimeconfig.json
 C:\Users\86132\Desktop\C#\NoteBook\NoteBook\bin\Debug\net6.0-windows\Apps\NoteBook.exe
+C:\Users\86132\Desktop\C#\NoteBook\NoteBook\bin\Debug\net6.0-windows\Apps\Wait.pdb
+C:\Users\86132\Desktop\C#\NoteBook\Wait\obj\Debug\Wait.sourcelink.json
+C:\Users\86132\Desktop\C#\NoteBook\Wait\obj\Debug\Wait.pdb

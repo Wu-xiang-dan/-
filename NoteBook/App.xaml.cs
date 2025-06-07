@@ -12,6 +12,10 @@ using NoteBook.Data;
 using System;
 using MaterialDesignThemes.Wpf;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using NoteBook.MegEvents;
+using Prism.Events;
 namespace NoteBook
 {
     /// <summary>
@@ -50,14 +54,6 @@ namespace NoteBook
                     main.DefNavigate(accountName);
                 }
             });
-        }
-        protected override void OnExit(ExitEventArgs e)
-        {
-            var JasonService = Container.Resolve<IJsonSerializerService>();
-            var dataService = Container.Resolve<IDataService>();
-            JasonService.SaveWaitsToJson(dataService.ViewWaitList.ToList());
-            JasonService.SaveMemosToJson(dataService.ViewMemoList.ToList());
-            base.OnExit(e);
         }
         protected override void InitializeModules()
         {

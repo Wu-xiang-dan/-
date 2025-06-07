@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/Register": {
+    "/api/Account/Register": {
       "post": {
         "tags": [
           "Account"
@@ -36,7 +36,7 @@
         }
       }
     },
-    "/api/Login": {
+    "/api/Account/Login": {
       "get": {
         "tags": [
           "Account"
@@ -86,76 +86,25 @@
         }
       }
     },
-    "/api/Memo/AddMemo": {
-      "post": {
-        "tags": [
-          "Memo"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/MemoDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/MemoDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/MemoDTO"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Memo/UpdateMemo": {
-      "post": {
-        "tags": [
-          "Memo"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewMemoinfo"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewMemoinfo"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewMemoinfo"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Memo/DeleteMemo": {
+    "/api/Memo/DeleteMemos": {
       "delete": {
         "tags": [
           "Memo"
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "ids",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          },
+          {
+            "name": "Account_id",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -170,7 +119,7 @@
         }
       }
     },
-    "/api/Memo/UploadWaits": {
+    "/api/Memo/AddMemos": {
       "post": {
         "tags": [
           "Memo"
@@ -181,7 +130,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/WaitDTO"
+                  "$ref": "#/components/schemas/MemoDTO"
                 }
               }
             },
@@ -189,7 +138,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/WaitDTO"
+                  "$ref": "#/components/schemas/MemoDTO"
                 }
               }
             },
@@ -197,7 +146,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/WaitDTO"
+                  "$ref": "#/components/schemas/MemoDTO"
                 }
               }
             }
@@ -210,38 +159,45 @@
         }
       }
     },
-    "/api/Wait/StateWait": {
-      "get": {
+    "/api/Memo/AlterMemos": {
+      "put": {
         "tags": [
-          "Wait"
+          "Memo"
         ],
-        "responses": {
-          "200": {
-            "description": "Success"
+        "parameters": [
+          {
+            "name": "Account_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
           }
-        }
-      }
-    },
-    "/api/Wait/AddWait": {
-      "post": {
-        "tags": [
-          "Wait"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/WaitDTO"
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/MemoDTO"
+                }
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/WaitDTO"
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/MemoDTO"
+                }
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/WaitDTO"
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/MemoDTO"
+                }
               }
             }
           }
@@ -275,104 +231,25 @@
         }
       }
     },
-    "/api/Wait/ChangeWaitingState": {
-      "put": {
-        "tags": [
-          "Wait"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/WaitDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/WaitDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/WaitDTO"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Wait/UpDataWait": {
-      "put": {
-        "tags": [
-          "Wait"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/WaitDTO"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/WaitDTO"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/WaitDTO"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Wait/QueryWaitList": {
-      "get": {
-        "tags": [
-          "Wait"
-        ],
-        "parameters": [
-          {
-            "name": "Title",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Status",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Wait/DeleteWait": {
+    "/api/Wait/DeleteWaits": {
       "delete": {
         "tags": [
           "Wait"
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "ids",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          },
+          {
+            "name": "Account_id",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -387,7 +264,7 @@
         }
       }
     },
-    "/api/Wait/UploadMemos": {
+    "/api/Wait/AddWaits": {
       "post": {
         "tags": [
           "Wait"
@@ -398,7 +275,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/MemoDTO"
+                  "$ref": "#/components/schemas/WaitDTO"
                 }
               }
             },
@@ -406,7 +283,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/MemoDTO"
+                  "$ref": "#/components/schemas/WaitDTO"
                 }
               }
             },
@@ -414,7 +291,57 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/MemoDTO"
+                  "$ref": "#/components/schemas/WaitDTO"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Wait/AlterWaits": {
+      "put": {
+        "tags": [
+          "Wait"
+        ],
+        "parameters": [
+          {
+            "name": "Account_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/WaitDTO"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/WaitDTO"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/WaitDTO"
                 }
               }
             }
@@ -456,42 +383,6 @@
         },
         "additionalProperties": false
       },
-      "Accountinfo": {
-        "type": "object",
-        "properties": {
-          "accountId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "accountName": {
-            "type": "string",
-            "nullable": true
-          },
-          "account": {
-            "type": "string",
-            "nullable": true
-          },
-          "password": {
-            "type": "string",
-            "nullable": true
-          },
-          "memos": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/NewMemoinfo"
-            },
-            "nullable": true
-          },
-          "waits": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/WaitInfo"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "MemoDTO": {
         "type": "object",
         "properties": {
@@ -503,10 +394,6 @@
             "type": "integer",
             "format": "int32"
           },
-          "accountID": {
-            "type": "integer",
-            "format": "int32"
-          },
           "title": {
             "type": "string",
             "nullable": true
@@ -514,35 +401,6 @@
           "content": {
             "type": "string",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "NewMemoinfo": {
-        "type": "object",
-        "properties": {
-          "memoID": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "accountInfoId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "content": {
-            "type": "string",
-            "nullable": true
-          },
-          "createTime": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "accountInfo": {
-            "$ref": "#/components/schemas/Accountinfo"
           }
         },
         "additionalProperties": false
@@ -565,39 +423,6 @@
           "content": {
             "type": "string",
             "nullable": true
-          },
-          "status": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "WaitInfo": {
-        "type": "object",
-        "properties": {
-          "waitid": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "accountInfoId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "content": {
-            "type": "string",
-            "nullable": true
-          },
-          "createTime": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "accountInfo": {
-            "$ref": "#/components/schemas/Accountinfo"
           },
           "status": {
             "type": "integer",

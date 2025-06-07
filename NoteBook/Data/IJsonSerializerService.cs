@@ -11,7 +11,7 @@ namespace NoteBook.Data
     {
         void SaveMemosToJson(List<MemoViewModel> memos);
         void SaveWaitsToJson(List<WaitVieModel> waits);
-        List<WaitVieModel> LoadingWaitsJson();
-        List<MemoViewModel> LoadingMemosJson();
+        Task<List<WaitVieModel>> LoadingWaitsJsonAsync();
+        Task<List<MemoViewModel>> LoadingMemosJsonAsync();
     }
 }

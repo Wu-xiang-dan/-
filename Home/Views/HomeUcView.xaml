@@ -35,14 +35,14 @@
            </ItemsControl.ItemsPanel>
            <ItemsControl.ItemTemplate>
                <DataTemplate>
-                    <Border Background="{Binding BackGroundColor}"  Margin="10" Padding="5" CornerRadius="5" Style="{StaticResource EndControl}">
+                    <Border Background="{Binding BackGroundColor}"  Margin="10" Padding="5" CornerRadius="5" Style="{StaticResource EndControl}" ToolTip="进入~~">
                         <Border.InputBindings>
                             <MouseBinding MouseAction="LeftClick"  Command="{Binding DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl }}" CommandParameter="{Binding}"></MouseBinding>
                         </Border.InputBindings>
                         <Grid>
                             <StackPanel Orientation="Vertical" Grid.Row="0" Margin="20 10" >
                                <md:PackIcon Kind="{Binding Icon}" Width="25" Height="25" HorizontalAlignment="Left"></md:PackIcon>
-                               <TextBlock Text="{Binding ItemName}" FontSize="16" Margin="0,15"></TextBlock>
+                               <TextBlock x:Name="NameText" Text="{Binding ItemName}" FontSize="16" Margin="0,15"></TextBlock>
                                <TextBlock Text="{Binding Result}" FontSize="14" FontWeight="Bold" ></TextBlock>
                            </StackPanel>
                            <!--画背景-->
@@ -75,12 +75,13 @@
                 <ListBox ItemsSource="{Binding NotResolveWaitInfoList}" HorizontalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Hidden">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDoubleClick">
+                            
                             <i:InvokeCommandAction Command="{Binding ShowEditWaitDialogCommand}" CommandParameter="{Binding SelectedItem,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ListBox}}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <DockPanel MaxHeight="80" LastChildFill="False">
+                            <DockPanel MaxHeight="80" LastChildFill="False"  ToolTip="双击编辑">
                                 <ToggleButton DockPanel.Dock="Right" IsChecked="{Binding Status}" Command="{Binding DataContext.ChangeWaitingStateCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBox}
                                    }" CommandParameter="{Binding}"/>
                                 <StackPanel DockPanel.Dock="Left">
@@ -110,8 +111,9 @@
                     </i:Interaction.Triggers>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <DockPanel MaxHeight="80" LastChildFill="False">
-                                <ToggleButton DockPanel.Dock="Right"/>
+                            <DockPanel MaxHeight="80" LastChildFill="False" ToolTip="双击编辑">
+                                <ToggleButton DockPanel.Dock="Right"  Command="{Binding DataContext.DeleteMemoCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBox}
+                                   }" CommandParameter="{Binding}"/>
                                 <StackPanel DockPanel.Dock="Left">
                                     <TextBlock Text="{Binding Title}" FontSize="16" FontWeight="Bold" Foreground="White" Margin="5 5"></TextBlock>
                                     <TextBlock Text="{Binding Content}" Opacity="0.5" Foreground="White" Margin="5 5"></TextBlock>

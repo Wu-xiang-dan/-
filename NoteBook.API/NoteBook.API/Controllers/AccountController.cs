@@ -7,7 +7,7 @@ using NoteBook.API.AutoMapers;
 using AutoMapper;
 namespace NoteBook.API.Controllers
 {
-    [Route("api/[action]")]
+    [Route("api/[controller]/[action]")]  
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -40,7 +40,7 @@ namespace NoteBook.API.Controllers
                 }
                 else
                 {
-                    response.ResultCode = Result.Error;
+                    response.ResultCode = Result.Failed;
                     response.Message = "注册失败";
                 }
             }
@@ -58,8 +58,8 @@ namespace NoteBook.API.Controllers
         /// <param name="password">密码</param>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Login(string username, string password) { 
-            Response response=new Response() { };
+        public IActionResult Login([FromQuery] string username,[FromQuery]string password) { 
+            Response response=new Response();
             try
             {
                 var abAccount = _dbContext.Accountinfos.Where((Accountinfo ac) => ac.Account == username && ac.Password == password).FirstOrDefault();
@@ -68,13 +68,11 @@ namespace NoteBook.API.Controllers
                 {
                     response.ResultCode = Result.Failed;
                     response.Message = "账号或密码错误";
+                    return BadRequest(response);
                 }
-                else
-                {
-                    response.ResultCode = Result.Success;
-                    response.ResultData = new LoginResultDTO() {AccountName=abAccount.AccountName,AccountId=abAccount.AccountId};
-                    response.Message = "登录成功";
-                }
+                response.ResultCode = Result.Success;
+                response.ResultData = new LoginResultDTO() {AccountName=abAccount.AccountName,AccountId=abAccount.AccountId};
+                response.Message = "登录成功";         
             }
             catch (Exception)
             {

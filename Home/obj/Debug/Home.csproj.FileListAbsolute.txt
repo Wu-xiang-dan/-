@@ -28,3 +28,4 @@ C:\Users\86132\Desktop\C#\NoteBook\Home\obj\Debug\Views\Dialogs\EditMemoUcView.g
 C:\Users\86132\Desktop\C#\NoteBook\Home\obj\Debug\Views\Dialogs\EditMemoUcView.baml
 C:\Users\86132\Desktop\C#\NoteBook\NoteBook\bin\Debug\net6.0-windows\Apps\Home.pdb
 C:\Users\86132\Desktop\C#\NoteBook\Home\obj\Debug\Home.pdb
+C:\Users\86132\Desktop\C#\NoteBook\Home\obj\Debug\Home.sourcelink.json

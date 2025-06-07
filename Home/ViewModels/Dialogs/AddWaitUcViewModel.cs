@@ -31,27 +31,24 @@ namespace Home.ViewModels.Dialogs
                 return;
             }
             DialogParameters pairs=new DialogParameters();
-            pairs.Add("WaitInfoDTO", WaitInfo);
+            pairs.Add("WaitDTO", WaitInfo);
             var result = new DialogResult(ButtonResult.OK,pairs);
             RequestClose?.Invoke(result);
         }
         public void CancelCommandExecute()
         {
-            // 执行取消操作
-            // 这里可以添加取消逻辑，例如清理输入框等
-            // 然后关闭对话框并返回结果
             var result = new DialogResult(ButtonResult.Cancel);
             RequestClose?.Invoke(result);
         }
 
         public void OnDialogClosed()
         {
-            // 清理资源，不需要抛出异常
+          
         }
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
-            // 处理传入参数（如果有），不需要抛出异常
+           
         }
     }
 }

@@ -1,20 +1,6 @@
 ﻿using NoteBook.MegEvents;
 using Prism.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
 namespace NoteBook.Views
 {
     /// <summary>
@@ -27,9 +13,8 @@ namespace NoteBook.Views
         {
             InitializeComponent();
             _eventAggregator = eventAggregator;
-            _eventAggregator.GetEvent<MesEvent>().Subscribe(Sub);
+            _eventAggregator.GetEvent<LoginMegEvents>().Subscribe(Sub);
         }
-
         private void Sub(string obj)
         {
             ReLoginBar.MessageQueue.Enqueue(obj);

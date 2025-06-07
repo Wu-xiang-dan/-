@@ -13,29 +13,15 @@ namespace NoteBook.Data
 {
     public interface IDataService
     {
-
-        //上传数据
-        ApiResponse UploadMemos();
-        ApiResponse UploadWaits();
-
-        ApiResponse AddMemo(MemoInfoDTO memoInfoDTO);
-        ApiResponse AddWait(WaitInfoDTO waitInfoDTO);
-
-        //改数据
-        ApiResponse UpDataWait(WaitInfoDTO waitInfoDTO);
-        ApiResponse UpDataMemo(MemoInfoDTO memoInfoDTO);
-
-        ApiResponse DeleteWait(WaitInfoDTO waitInfoDTO);
-        ApiResponse DeleteMemo(MemoInfoDTO memoInfoDTO);
-        /// <summary>
-        /// Memo 列表
-        /// </summary>
         ObservableCollection<MemoViewModel> ViewMemoList { get; set; }
         ObservableCollection<WaitVieModel> ViewWaitList { get; set; }
-        void LoadData();
+        Task<List<ApiResponse>> UploadMemosAsync();// 上传备忘录
+        Task<List<ApiResponse>> UploadWaitsAsync();// 上传待办事项
+        Task<string> LoadDataAsync();//同步数据或加载本地数据
         int GetMemoCount();
-        int GetWaitFinishCount();  
+        int GetWaitFinishCount();
         int GetWaitCount();
-        void SetID(int id);
+        void SetID(int id);// 设置当前用户ID
+        int GetID();
     }
 }

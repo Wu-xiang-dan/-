@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace NoteBook.HttpClients
 {
     public enum Result
@@ -11,7 +10,8 @@ namespace NoteBook.HttpClients
         Success = 0,
         Error = 1,
         NotFound = 404,
-        Failed = 500
+        Failed = 500,
+        Canceled = 600,
     }
     public class ApiResponse
     {

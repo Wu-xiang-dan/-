@@ -31,7 +31,7 @@ namespace Home.ViewModels.Dialogs
                 return;
             }
             DialogParameters pairs = new DialogParameters();
-            pairs.Add("MemoInfoDTO", MemoInfo);
+            pairs.Add("MemoDTO", MemoInfo);
             var result = new DialogResult(ButtonResult.OK, pairs);
             RequestClose?.Invoke(result);
         }

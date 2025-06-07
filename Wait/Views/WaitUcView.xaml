@@ -31,8 +31,8 @@
                     </StackPanel>
 
                     <TextBox md:HintAssist.Hint="Title" Margin="20 0" DockPanel.Dock="Top" Text="{Binding Wait.Title ,Mode=OneWayToSource,UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                    <TextBox md:HintAssist.Hint="Content" DockPanel.Dock="Top" MinHeight="100" Text="{Binding Wait.Content, Mode=OneWayToSource,UpdateSourceTrigger=PropertyChanged}" TextWrapping="WrapWithOverflow"></TextBox>
-                    <Button Content="添加到待办" Command="{Binding AddWaitCommand}" DockPanel.Dock="Top"></Button>
+                    <TextBox md:HintAssist.Hint="Content" Margin="20 0" DockPanel.Dock="Top" MinHeight="100" Text="{Binding Wait.Content, Mode=OneWayToSource,UpdateSourceTrigger=PropertyChanged}" TextWrapping="WrapWithOverflow"></TextBox>
+                    <Button Margin="20 20" Width="200" Content="添加到待办" Command="{Binding AddWaitCommand}" DockPanel.Dock="Top"></Button>
                 </DockPanel>
             </md:DrawerHost.RightDrawerContent>
             <md:DrawerHost>
@@ -61,11 +61,8 @@
                     </StackPanel>
                     <Button Content="+添加代办" HorizontalAlignment="Right" Margin="10 0" Command="{Binding ShowRightDialogCommand}"></Button>
                     <!--第二行-->
-                    <StackPanel Grid.Row="1" VerticalAlignment="Center" Visibility="{Binding Visibility}">
-                        <TextBlock Text="未发现对应待办事项，您可以尝试添加新的待办事项" HorizontalAlignment="Center" FontSize="36" Foreground="White"></TextBlock>
-                    </StackPanel>
                     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                        <ItemsControl ItemsSource="{Binding WaitInfoList}" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ScrollViewer}}">
+                        <ItemsControl ItemsSource="{Binding WaitInfoList}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel></WrapPanel>

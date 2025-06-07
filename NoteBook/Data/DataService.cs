@@ -4,16 +4,15 @@ using NoteBook.HttpClients;
 using NoteBook.ViewModels;
 using RestSharp;
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using NoteBook.Models;
-using System.Windows;
-using ImTools;
+using System.Threading;
+using System.Web;
+using System.Windows.Xps.Serialization;
+using System.Diagnostics;
 namespace NoteBook.Data
 {
     public class DataService : IDataService
@@ -52,164 +51,6 @@ namespace NoteBook.Data
         }
 
         /// <summary>
-        /// 获取备忘录事项
-        /// </summary>
-        /// <returns></returns>
-        private void GetMemoList(int id)
-        {
-            _apiRequest = new ApiRequest() { Method = Method.GET, Route = $"Memo/GetMemoList?id={id}" };
-            _apiResponse = _httpRestClient.Execute(_apiRequest);
-            if (_apiResponse.ResultCode == Result.Success)
-            {
-                _memoList = JsonConvert.DeserializeObject<List<MemoViewModel>>(_apiResponse.ResultData.ToString());
-            }
-            else
-            {
-                _memoList = _jsonSerializerService.LoadingMemosJson();
-            }
-            ViewMemoList = new ObservableCollection<MemoViewModel>(_memoList.Select(t => t.Clone()).ToList());
-        }
-        /// <summary>
-        /// 获取待 办事项
-        /// </summary>
-        /// <returns></returns>
-        private void GetWaitList(int id)
-        {
-            _apiRequest = new ApiRequest() { Method = Method.GET, Route = $"Wait/GetWaitings?id={id}" };
-            _apiResponse = _httpRestClient.Execute(_apiRequest);
-            if (_apiResponse.ResultCode == Result.Success)
-            {
-                _waitList = JsonConvert.DeserializeObject<List<WaitVieModel>>(_apiResponse.ResultData.ToString());
-            }
-            else
-            {
-                _waitList = _jsonSerializerService.LoadingWaitsJson();
-            }
-            ViewWaitList = new ObservableCollection<WaitVieModel>(_waitList.Select(t => t.Clone()).ToList());
-        }
-        /// <summary>
-        /// 添加备忘录事项
-        /// </summary>
-        /// <param name="memoList">待添加的项</param>
-        /// <returns>Response</returns>
-        public ApiResponse AddMemo(MemoInfoDTO memo)
-        {
-            _memoList.Add(new MemoViewModel() { Title = memo.Title, Content = memo.Content, dataStatus = DataStatus.Add, AccountInfoId = id });
-
-            _apiRequest = new ApiRequest() { Method = Method.POST, Route = "Memo/AddMemo", Paramters = memo };
-            _apiResponse = _httpRestClient.Execute(_apiRequest);
-            return _apiResponse;
-        }
-        public ApiResponse AddWait(WaitInfoDTO wait)
-        {
-            _waitList.Add(new WaitVieModel() { Title = wait.Title, Content = wait.Content, dataStatus = DataStatus.Add, AccountInfoId = id, Status = wait.Status });
-
-            _apiRequest = new ApiRequest() { Method = Method.POST, Route = "Wait/AddWait", Paramters = wait };
-            _apiResponse = _httpRestClient.Execute(_apiRequest);
-            return _apiResponse;
-        }
-        public ApiResponse UpDataWait(WaitInfoDTO waitInfoDTO)
-        {
-            var db = _waitList.Where(t => t.Id == waitInfoDTO.Id).FirstOrDefault();
-            db.Status = waitInfoDTO.Status;
-            db.Title = waitInfoDTO.Title;
-            db.Content = waitInfoDTO.Content;
-            db.dataStatus = DataStatus.Alter;
-
-            _apiRequest = new ApiRequest() { Method = Method.PUT, Paramters = waitInfoDTO, Route = "Wait/UpDataWait" };
-            _apiResponse = _httpRestClient.Execute(_apiRequest);
-            return _apiResponse;
-        }
-        public ApiResponse UpDataMemo(MemoInfoDTO memoInfoDTO)
-        {
-            var db = _memoList.Where(t => t.MemoID == memoInfoDTO.MemoID).FirstOrDefault();
-            db.Title = memoInfoDTO.Title;
-            db.Content = memoInfoDTO.Content;
-            db.dataStatus = DataStatus.Alter;
-
-            _apiRequest = new ApiRequest() { Method = Method.POST, Route = "Memo/UpdateMemo", Paramters = memoInfoDTO };
-            _apiResponse = _httpRestClient.Execute(_apiRequest);
-            return _apiResponse;
-        }
-        public ApiResponse DeleteMemo(MemoInfoDTO memo)
-        {
-            var db = _memoList.Where(t => t.MemoID == memo.MemoID).FirstOrDefault();
-            _memoList.Remove(db);
-            try
-            {
-                _apiRequest = new ApiRequest() { Method = Method.DELETE, Route = $"Memo/DeleteMemo?id={memo.MemoID}" };
-                _apiResponse = _httpRestClient.Execute(_apiRequest);
-                return _apiResponse;
-            }
-            catch (MissingMethodException ex)
-            {
-                Console.WriteLine($"DeleteWait 方法中抛出 MissingMethodException: {ex.Message}");
-                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
-                throw;
-            }
-        }
-        public ApiResponse DeleteWait(WaitInfoDTO waitInfoDTO)
-        {
-            var db = _waitList.Where(t => t.Id == waitInfoDTO.Id).FirstOrDefault();
-            _waitList.Remove(db);
-            try
-            {
-                _apiRequest = new ApiRequest() { Method = Method.DELETE, Route = $"Wait/DeleteWait?id={waitInfoDTO.Id}" };
-                _apiResponse = _httpRestClient.Execute(_apiRequest);
-                return _apiResponse;
-            }
-            catch (MissingMethodException ex)
-            {
-                Console.WriteLine($"DeleteWait 方法中抛出 MissingMethodException: {ex.Message}");
-                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
-                throw;
-            }
-        }
-        public ApiResponse UploadWaits()
-        {
-            _waitList = _jsonSerializerService.LoadingWaitsJson().Where(t => t.dataStatus != DataStatus.Delete).ToList();
-            var waits = _waitList.Where(t => t.dataStatus != Models.DataStatus.Normal);
-            _apiRequest = new ApiRequest() { Method = Method.POST, Route = "Wait/UploadWaits", Paramters = waits };
-            _apiResponse = _httpRestClient.Execute(_apiRequest);
-            if (_apiResponse.ResultCode == Result.NotFound)
-            {
-                return _apiResponse;
-            }
-            else if (_apiResponse.ResultCode == Result.Error)//部分或全部数据上传失败
-            {
-                // 上传失败
-                return null;
-            }
-            else if (_apiResponse.ResultCode == Result.Success)
-            {
-                // 上传成功
-                return _apiResponse;
-            }
-            return _apiResponse;
-        }
-        public ApiResponse UploadMemos()
-        {
-            _memoList = _jsonSerializerService.LoadingMemosJson().Where(t => t.dataStatus != DataStatus.Delete).ToList();
-            var memos = _memoList.Where(t => t.dataStatus != Models.DataStatus.Normal);
-
-            _apiRequest = new ApiRequest() { Method = Method.POST, Route = "Memo/UploadMemos", Paramters = memos };
-            _apiResponse = _httpRestClient.Execute(_apiRequest);
-            if (_apiResponse.ResultCode == Result.NotFound)
-            {
-                return _apiResponse;
-            }
-            else if (_apiResponse.ResultCode == Result.Error)//部分或全部数据上传失败
-            {
-                // 上传失败
-                return null;
-            }
-            else if (_apiResponse.ResultCode == Result.Success)
-            {
-                return _apiResponse;
-            }
-            return _apiResponse;
-        }
-        /// <summary>
         /// 设置用户id
         /// </summary>
         /// <param name="id"></param>
@@ -217,14 +58,48 @@ namespace NoteBook.Data
         {
             this.id = id;
         }
-
+        public int GetID()
+        {
+            return id;
+        }
         /// <summary>
         /// 载入 数据
         /// </summary>
-        public void LoadData()
+        /// <summary>
+        /// 载入数据
+        /// </summary>
+        public async Task<string> LoadDataAsync()
         {
-            GetMemoList(id);
-            GetWaitList(id);
+            var tasks = new List<(Task<ApiResponse> task, string name)> { (GetMemoListAsync(id), "备忘录列表"), (GetWaitListAsync(id), "等待列表") };
+            try
+            {
+                await Task.WhenAll(tasks.Select(t => t.task));
+                var islocaldata = tasks.Find(t => t.task.Result.ResultCode != Result.Success);
+                if (islocaldata.task==null)
+                {
+                    return "载入云端数据成功";
+                }
+            }
+            catch
+            {
+                var errorMessages = new List<string>();
+
+                foreach (var (task, name) in tasks)
+                {
+                    if (task.IsFaulted)
+                    {
+                        // 获取异常信息（包含内部异常）
+                        var ex = task.Exception?.Flatten().InnerExceptions.FirstOrDefault();
+                        errorMessages.Add($"{name}加载失败: {ex?.Message ?? "未知错误"}");
+                    }
+                }
+                if (errorMessages.Any())
+                {
+                    string fullErrorMessage = string.Join(Environment.NewLine, errorMessages);
+                    return $"数据加载错误:{Environment.NewLine}{fullErrorMessage}";
+                }
+            }
+            return "Not Connection Loading Local Data";
         }
         public int GetMemoCount()
         {
@@ -237,6 +112,351 @@ namespace NoteBook.Data
         public int GetWaitFinishCount()
         {
             return _viewWaitList.Count(t => t.dataStatus != DataStatus.Delete && t.Status == 1);
+        }
+
+        public async Task<List<ApiResponse>> UploadWaitsAsync()
+        {
+            // 筛选需要操作的数据
+            var deleteWaitIds = ViewWaitList
+                .Where(t => t.dataStatus == DataStatus.Delete)
+                .Select(t => t.Id)
+                .ToList();
+
+            var addWaits = ViewWaitList
+                .Where(t => t.dataStatus == DataStatus.Add)
+                .Select(t => WaitVieModel.ConvertToWaitDTO(t))
+                .ToList();
+
+            var alterWaits = ViewWaitList
+                .Where(t => t.dataStatus == DataStatus.Alter)
+                .Select(t => WaitVieModel.ConvertToWaitDTO(t))
+                .ToList();
+
+            // 存储所有任务及其描述
+            var tasks = new List<(Task<ApiResponse> Task, string Operation)>();
+
+            // 删除待办事项
+            if (deleteWaitIds.Any())
+            {
+                tasks.Add(CreateDeleteWaitsTask(deleteWaitIds));
+            }
+
+            // 添加待办事项
+            if (addWaits.Any())
+            {
+                tasks.Add(CreateAddWaitsTask(addWaits));
+            }
+
+            // 修改待办事项
+            if (alterWaits.Any())
+            {
+                tasks.Add(CreateAlterWaitsTask(alterWaits));
+            }
+
+            return await ExecuteUploadTasks(tasks);
+        }
+
+        public async Task<List<ApiResponse>> UploadMemosAsync()
+        {
+            // 筛选需要操作的数据
+            var deleteMemoIds = ViewMemoList
+                .Where(t => t.dataStatus == DataStatus.Delete)
+                .Select(t => t.MemoID)
+                .ToList();
+
+            var addMemos = ViewMemoList
+                .Where(t => t.dataStatus == DataStatus.Add)
+                .Select(MemoViewModel.ConvertToMemoDTO)
+                .ToList();
+
+            var alterMemos = ViewMemoList
+                .Where(t => t.dataStatus == DataStatus.Alter)
+                .Select(MemoViewModel.ConvertToMemoDTO)
+                .ToList();
+
+            // 存储所有任务及其描述
+            var tasks = new List<(Task<ApiResponse> Task, string Operation)>();
+
+            // 删除备忘录
+            if (deleteMemoIds.Any())
+            {
+                tasks.Add(CreateDeleteMemoTask(deleteMemoIds));
+            }
+
+            // 添加备忘录
+            if (addMemos.Any())
+            {
+                tasks.Add(CreateAddMemoTask(addMemos));
+            }
+
+            // 修改备忘录
+            if (alterMemos.Any())
+            {
+                tasks.Add(CreateAlterMemoTask(alterMemos));
+            }
+
+            return await ExecuteUploadTasks(tasks);
+        }
+
+        private (Task<ApiResponse>, string) CreateDeleteMemoTask(List<int> memoIds)
+        {
+            using var cts = new CancellationTokenSource(10000);
+
+            // 手动构建查询字符串
+            var queryParams = string.Join("&",
+                memoIds.Select(id => $"ids={id}")) +
+                $"&Account_id={id}";
+
+            return (
+                _httpRestClient.ExecuteAsync(
+                    new ApiRequest
+                    {
+                        Method = Method.DELETE,
+                        Route = $"Memo/DeleteMemos?{queryParams}", // 直接将参数拼接到路由中
+                                                                   // 移除Paramters，因为参数已包含在URL中
+                    },
+                    cts.Token
+                ),
+                "DeleteMemos"
+            );
+        }
+
+        private (Task<ApiResponse>, string) CreateAddMemoTask(List<MemoDTO> memos)
+        {
+            
+            using var cts = new CancellationTokenSource(10000);
+            return (
+                _httpRestClient.ExecuteAsync(
+                    new ApiRequest
+                    {
+                        Method = Method.POST,
+                        Route = "Memo/AddMemos",
+                        Paramters = memos
+                    },
+                    cts.Token
+                ),
+                "AddMemos"
+            );
+        }
+
+        private (Task<ApiResponse>, string) CreateAlterMemoTask(List<MemoDTO> memos)
+        {
+            using var cts = new CancellationTokenSource(10000);
+
+            return (
+                _httpRestClient.ExecuteAsync(
+                    new ApiRequest
+                    {
+                        Method = Method.PUT,
+                        Route = $"Memo/AlterMemos?Account_id={id}", 
+                        Paramters = memos,
+                        ContentType = "application/json"
+                    },
+                    cts.Token
+                ),
+                "AlterMemos"
+            );
+        }
+
+        private (Task<ApiResponse>, string) CreateDeleteWaitsTask(List<int> waitIds)
+        {
+            using var cts = new CancellationTokenSource(10000);
+
+            // 手动构建查询字符串
+            var queryParams = string.Join("&",
+                waitIds.Select(id => $"ids={id}")) +
+                $"&Account_id={id}";
+
+            return (
+                _httpRestClient.ExecuteAsync(
+                    new ApiRequest
+                    {
+                        Method = Method.DELETE,
+                        Route = $"Wait/DeleteWaits?{queryParams}", 
+                                                                  
+                    },
+                    cts.Token
+                ),
+                "DeleteWaits"
+            );
+        }
+
+        private (Task<ApiResponse>, string) CreateAddWaitsTask(List<WaitDTO> waits)
+        {
+            using var cts = new CancellationTokenSource(10000);
+
+            return (
+                _httpRestClient.ExecuteAsync(
+                    new ApiRequest
+                    {
+                        Method = Method.POST,
+                        Route = "Wait/AddWaits",
+                        Paramters = waits,
+                        ContentType = "application/json"
+                    },
+                    cts.Token
+                ),
+                "AddWaits"
+            );
+        }
+
+        private (Task<ApiResponse>, string) CreateAlterWaitsTask(List<WaitDTO> waits)
+        {
+            using var cts = new CancellationTokenSource(10000);
+
+            return (
+                _httpRestClient.ExecuteAsync(
+                    new ApiRequest
+                    {
+                        Method = Method.PUT,
+                        Route = $"Wait/AlterWaits?Account_id={id}", 
+                        Paramters = waits, 
+                        ContentType = "application/json"
+                    },
+                    cts.Token
+                ),
+                "AlterWaits"
+            );
+        }
+
+        private async Task<List<ApiResponse>> ExecuteUploadTasks(List<(Task<ApiResponse> Task, string Operation)> tasks)
+        {
+            var apiResponses = new List<ApiResponse>();
+
+            if (!tasks.Any())
+            {
+                apiResponses.Add(new ApiResponse
+                {
+                    ResultCode = Result.Success,
+                    Message = "没有需要上传的数据"
+                });
+                return apiResponses;
+            }
+
+            try
+            {
+                var responses = await Task.WhenAll(tasks.Select(t => t.Task));
+                apiResponses.AddRange(responses);
+
+                if (responses.All(t => t.ResultCode == Result.Success)){
+
+                    ViewWaitList = new ObservableCollection<WaitVieModel>(
+                        ViewWaitList.Where(t => t.dataStatus != DataStatus.Delete).ToList()
+                    );
+
+                    ViewWaitList.Where(t => t.dataStatus == DataStatus.Add)
+                        .ToList().ForEach(t => t.dataStatus = DataStatus.Normal);
+
+                    ViewWaitList.Where(t => t.dataStatus == DataStatus.Alter)
+                        .ToList().ForEach(t => t.dataStatus = DataStatus.Normal);
+                }
+            }
+            catch (ArgumentException ex) when (ex.Message.Contains("Paramters"))
+            {
+                apiResponses.Add(new ApiResponse
+                {
+                    ResultCode = Result.Error,
+                    Message = "请求参数格式错误"
+                });
+            }
+            catch (OperationCanceledException)
+            {
+                Console.WriteLine("操作已取消");
+                apiResponses.Add(new ApiResponse
+                {
+                    ResultCode = Result.Canceled,
+                    Message = "请求超时或已取消"
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"上传过程中发生错误: {ex.Message}");
+                apiResponses.Add(new ApiResponse
+                {
+                    ResultCode = Result.Error,
+                    Message = "上传过程中发生错误"
+                });
+            }
+
+            return apiResponses;
+        }
+
+        private async Task<ApiResponse> GetMemoListAsync(int accountId)
+        {
+            try
+            {
+                using var cts = new CancellationTokenSource(10000);
+
+                var response = await _httpRestClient.ExecuteAsync(
+                    new ApiRequest
+                    {
+                        Method = Method.GET,
+                        Route = "Memo/GetMemoList",
+                        Paramters =new Dictionary<string, object>() { { "id",accountId} } 
+                    },
+                    cts.Token
+                );
+
+                if (response.ResultCode == Result.Success)
+                {
+                    _memoList = JsonConvert.DeserializeObject<List<MemoViewModel>>(response.ResultData?.ToString() ?? string.Empty);
+                    ViewMemoList = new ObservableCollection<MemoViewModel>(_memoList?.Select(t => t.Clone()).ToList() ?? new List<MemoViewModel>());
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"获取备忘录列表失败: {ex.Message}");
+            }
+
+            // 回退到本地数据
+            _memoList = await _jsonSerializerService.LoadingMemosJsonAsync();
+            ViewMemoList = new ObservableCollection<MemoViewModel>(_memoList?.Select(t => t.Clone()).ToList() ?? new List<MemoViewModel>());
+
+            return new ApiResponse
+            {
+                ResultCode = Result.NotFound,
+                Message = "未找到服务器，启用本地数据"
+            };
+        }
+
+        private async Task<ApiResponse> GetWaitListAsync(int accountId)
+        {
+            try
+            {
+                using var cts = new CancellationTokenSource(10000);
+
+                var response = await _httpRestClient.ExecuteAsync(
+                    new ApiRequest
+                    {
+                        Method = Method.GET,
+                        Route = "Wait/GetWaitings",
+                        Paramters =new Dictionary<string, object>() { { "id",accountId} }
+                    },
+                    cts.Token
+                );
+
+                if (response.ResultCode == Result.Success)
+                {
+                    _waitList = JsonConvert.DeserializeObject<List<WaitVieModel>>(response.ResultData?.ToString() ?? string.Empty);
+                    ViewWaitList = new ObservableCollection<WaitVieModel>(_waitList?.Select(t => t.Clone()).ToList() ?? new List<WaitVieModel>());
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"获取待办事项列表失败: {ex.Message}");
+            }
+
+            // 回退到本地数据
+            _waitList = await _jsonSerializerService.LoadingWaitsJsonAsync();
+            ViewWaitList = new ObservableCollection<WaitVieModel>(_waitList?.Select(t => t.Clone()).ToList() ?? new List<WaitVieModel>());
+
+            return new ApiResponse
+            {
+                ResultCode = Result.NotFound,
+                Message = "未找到服务器，启用本地数据"
+            };
         }
     }
 }

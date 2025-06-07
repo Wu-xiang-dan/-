@@ -20,3 +20,4 @@ C:\Users\86132\Desktop\C#\NoteBook\NoteBook\bin\Debug\net6.0-windows\Apps\NoteBo
 C:\Users\86132\Desktop\C#\NoteBook\Memo\obj\Debug\Memo.csproj.Up2Date
 C:\Users\86132\Desktop\C#\NoteBook\NoteBook\bin\Debug\net6.0-windows\Apps\Memo.pdb
 C:\Users\86132\Desktop\C#\NoteBook\Memo\obj\Debug\Memo.pdb
+C:\Users\86132\Desktop\C#\NoteBook\Memo\obj\Debug\Memo.sourcelink.json

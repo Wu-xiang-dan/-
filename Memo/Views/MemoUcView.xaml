@@ -22,9 +22,9 @@
             <md:DrawerHost.RightDrawerContent>
                 <DockPanel Width="300" LastChildFill="False">
                     <TextBlock Text="添加备忘录" FontWeight="Bold" FontSize="20" Margin="20 10" DockPanel.Dock="Top"></TextBlock>
-                    <TextBox md:HintAssist.Hint="Title" Margin="20 0" DockPanel.Dock="Top"></TextBox>
-                    <TextBox md:HintAssist.Hint="Content" DockPanel.Dock="Top" MinHeight="100" TextWrapping="WrapWithOverflow"></TextBox>
-                    <Button Content="添加到备忘录" DockPanel.Dock="Top"></Button>
+                    <TextBox md:HintAssist.Hint="Title" Margin="20 0" DockPanel.Dock="Top" Text="{Binding Memo.Title}"></TextBox>
+                    <TextBox md:HintAssist.Hint="Content" Margin="20 0" DockPanel.Dock="Top" Text="{Binding Memo.Content}" MinHeight="100" TextWrapping="WrapWithOverflow"></TextBox>
+                    <Button Margin="20 20" Width="200" Content="添加到备忘录" Command="{Binding AddMomoCommad}" DockPanel.Dock="Top"></Button>
                 </DockPanel>
             </md:DrawerHost.RightDrawerContent>
             <md:DrawerHost>
@@ -34,18 +34,15 @@
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <!--第一行-->
-                    <TextBox Margin="10 5" md:HintAssist.Hint="查找代办事项" md:TextFieldAssist.HasClearButton="True" Width="200" Text="{Binding SearchTitle,Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" >
+                    <TextBox Margin="10 5" md:HintAssist.Hint="查找备忘录" md:TextFieldAssist.HasClearButton="True" Width="200" Text="{Binding SearchTitle,Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" >
                         <TextBox.InputBindings>
                             <KeyBinding Key="Enter" Command="{Binding UpDataMemoListCommand}"></KeyBinding>
                         </TextBox.InputBindings>
                     </TextBox>
-                    <Button Content="+添加代办" HorizontalAlignment="Right" Margin="10 0" Command="{Binding ShowAddMemoDialogCommand}"></Button>
-                    <StackPanel Grid.Row="1" VerticalAlignment="Center" Visibility="{Binding Visibility}">
-                        <TextBlock Text="未发现对应备忘录，您可以尝试添加新的备忘录" HorizontalAlignment="Center" FontSize="36" Foreground="White"></TextBlock>
-                    </StackPanel>
+                    <Button Content="+添加备忘录" HorizontalAlignment="Right" Margin="10 0" Command="{Binding ShowAddMemoDialogCommand}"></Button>
                     <!--第二行-->
                     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                        <ItemsControl ItemsSource="{Binding MemoInfoList}" Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ScrollViewer}}">
+                        <ItemsControl ItemsSource="{Binding MemoInfoList}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel></WrapPanel>

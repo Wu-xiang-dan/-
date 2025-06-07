@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Memo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+df3a5bcfad3129070f0850a5e7f7f950deb93d7c")]
 [assembly: System.Reflection.AssemblyProductAttribute("Memo")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Memo")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

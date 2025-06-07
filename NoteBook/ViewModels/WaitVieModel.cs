@@ -38,25 +38,26 @@ namespace NoteBook.ViewModels
                 AccountInfoId = this.AccountInfoId,
                 Title = this.Title,
                 Content = this.Content,
+                Status=this.Status,
                 dataStatus = this.dataStatus // 值类型直接赋值
             };
         }
 
-        public static WaitInfoDTO ConvertToWaitInfoDTO(WaitVieModel wait)
+        public static WaitDTO ConvertToWaitDTO(WaitVieModel wait)
         {
             if (wait == null)
             {
                 return null;
             }
 
-            WaitInfoDTO waitInfoDTO = new WaitInfoDTO()
+            WaitDTO WaitDTO = new WaitDTO()
             {
                 AccountInfoId = wait.AccountInfoId,
                 Content = wait.Content,
                 Title = wait.Title,
                 Id = wait.Id
             };
-            return waitInfoDTO;
+            return WaitDTO;
         }
     }
 }

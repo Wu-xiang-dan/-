@@ -16,7 +16,7 @@
             <ColumnDefinition Width="1.5*" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Image Width="300" Source="/Image/db.png" />
+        <Image Width="300" Source="/Image/xk.png"/>
         <!--显示信息-->
         <materialDesign:Snackbar x:Name="ReLoginBar" Grid.ColumnSpan="2" MessageQueue="{materialDesign:MessageQueue}">
         </materialDesign:Snackbar>
@@ -26,7 +26,7 @@
                 <DockPanel Margin="15" VerticalAlignment="Center">
                     <TextBlock Text="欢迎使用" FontSize="24" FontWeight="Bold" DockPanel.Dock="Top" ></TextBlock>
                     <TextBox materialDesign:HintAssist.Hint="请输账号" Text="{Binding Account,Mode=TwoWay,UpdateSourceTrigger=LostFocus}" DockPanel.Dock="Top" Margin="0 5"></TextBox>
-                    <PasswordBox materialDesign:HintAssist.Hint="密码" extent:PassWordBoxExtend.Password="{Binding Password, Mode=OneWayToSource,UpdateSourceTrigger=LostFocus}"  DockPanel.Dock="Top"  Margin=" 0 5">
+                    <PasswordBox materialDesign:HintAssist.Hint="密码" extent:PassWordBoxExtend.Password="{Binding Password, Mode=TwoWay,UpdateSourceTrigger=LostFocus}"  DockPanel.Dock="Top"  Margin=" 0 5">
                         <i:Interaction.Behaviors>
                             <extent:PasswordBoxBehavior/>
                         </i:Interaction.Behaviors>

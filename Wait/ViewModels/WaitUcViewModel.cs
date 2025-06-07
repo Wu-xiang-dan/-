@@ -1,21 +1,14 @@
-﻿using ImTools;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using NoteBook.Data;
-using NoteBook.DTOS;
-using NoteBook.HttpClients;
+﻿using NoteBook.Data;
 using NoteBook.Models;
 using NoteBook.ViewModels;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using NoteBook.MegEvents;
 using System.Windows;
 
 
@@ -23,9 +16,9 @@ namespace Wait.ViewModels
 {
     class WaitUcViewModel : BindableBase, INavigationAware
     {
-       // private List<WaitInfoDTO> DataBase = new List<WaitInfoDTO>();
         private ObservableCollection<WaitVieModel> _waitInfoList = new ObservableCollection<WaitVieModel>();
         private IDataService _dataService;
+        private IEventAggregator _eventAggregator;
         private bool _isShowRightDialog;
         public DelegateCommand ShowRightDialogCommand { get; set; }
         public DelegateCommand UpDateWaitListCommand { get; set; }
@@ -75,19 +68,10 @@ namespace Wait.ViewModels
             get { return _wait; }
             set { _wait = value; }
         }
-        private Visibility _visibility = Visibility.Hidden;
-        public Visibility Visibility
-        {
-            get { return _visibility; }
-            set
-            {
-                _visibility = value;
-                RaisePropertyChanged(nameof(Visibility));
-            }
-        }
-        public WaitUcViewModel(IDataService dataService)
+        public WaitUcViewModel(IDataService dataService,IEventAggregator eventAggregator)
         {
             _dataService = dataService;
+            _eventAggregator= eventAggregator;
             InitWaitInfoList();
             ShowRightDialogCommand = new DelegateCommand(ShowRightDialog);
             UpDateWaitListCommand = new DelegateCommand(UpdateWaitInfoList);
@@ -157,12 +141,14 @@ namespace Wait.ViewModels
             {
                 WaitInfoList = new ObservableCollection<WaitVieModel>(_dataService.ViewWaitList.Where(t => t.Title.Contains(SearchWaitTitle) && t.dataStatus != DataStatus.Delete));
             }
-            Visibility= WaitInfoList.Count == 0 ? Visibility = Visibility.Visible : Visibility = Visibility.Hidden;
+            if(WaitInfoList.Count==0)
+              _eventAggregator.GetEvent<MesEvent>().Publish("未查询到相关待办数据!");
 
         }
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             Status=navigationContext.Parameters.GetValue<string>("SelectIndex");
+            WaitInfoList = new ObservableCollection<WaitVieModel>(_dataService.ViewWaitList.Where(t => t.dataStatus != DataStatus.Delete));
             UpdateWaitInfoList();
         }
         public void AddWaitExecute()
@@ -173,7 +159,8 @@ namespace Wait.ViewModels
             }    
             WaitVieModel newWait =Wait.Clone();
             newWait.dataStatus=DataStatus.Add;
-            WaitInfoList.Add(new WaitVieModel() {Content=Wait.Content,Status=Convert.ToInt32(Status),Title=Wait.Title });
+            newWait.AccountInfoId = _dataService.GetID();
+            WaitInfoList.Add(new WaitVieModel() {Content=Wait.Content,Status=Convert.ToInt32(Wait.Status),Title=Wait.Title });
             _dataService.ViewWaitList.Add(newWait);
         }
         public void DeleteWaitEecute(WaitVieModel wait)

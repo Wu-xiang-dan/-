@@ -8,6 +8,7 @@
     <None Remove="Image\db.png" />
     <None Remove="Image\notFound.png" />
     <None Remove="Image\user.jpg" />
+    <None Remove="Image\xk.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
@@ -19,6 +20,7 @@
     <Resource Include="Image\db.png" />
     <Resource Include="Image\notFound.png" />
     <Resource Include="Image\user.jpg" />
+    <Resource Include="Image\xk.png" />
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
   </Target>

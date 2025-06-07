@@ -40,21 +40,21 @@ namespace NoteBook.ViewModels
         /// </summary>
         /// <param name="memo"></param>
         /// <returns></returns>
-        public static MemoInfoDTO ConvertToMemoInfoDTO(MemoViewModel memo)
+        public static MemoDTO ConvertToMemoDTO(MemoViewModel memo)
         {
             if (memo == null)
             {
                 return null;
             }
 
-           MemoInfoDTO memoInfoDTO=new MemoInfoDTO()
+           MemoDTO MemoDTO=new MemoDTO()
            {
                AccountInfoId = memo.AccountInfoId,
                Content = memo.Content,
                Title = memo.Title,
                MemoID = memo.MemoID
            };
-            return memoInfoDTO;
+            return MemoDTO;
         }
         public MemoViewModel Clone()
         {

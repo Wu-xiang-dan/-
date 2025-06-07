@@ -5,51 +5,51 @@ using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using RestSharp;
 using NoteBook.Data;
-using NoteBook.HttpClients;
-using Newtonsoft.Json;
 using System.Collections.ObjectModel;
-using System.Windows;
 using Prism.Commands;
 using Prism.Services.Dialogs;
 using DryIoc;
 using System.Linq;
 using NoteBook.ViewModels;
 using NoteBook.Models;
+using Prism.Events;
+using NoteBook.MegEvents;
 namespace Home.ViewModels
 {
     class HomeUcViewModel : BindableBase, INavigationAware
     {
-        public HomeUcViewModel(IDialogService dialogService, IRegionManager regionManager, IDataService dataServicers, IContainer container)
+        public HomeUcViewModel(IDialogService dialogService, IRegionManager regionManager, IDataService dataServicers, IContainer container, IEventAggregator eventAggregator)
         {
             _dialogService = dialogService;
             _dataService = dataServicers;
             _regionManager = regionManager;
+            _eventAggregator = eventAggregator;
             ChangeWaitingStateCommand = new DelegateCommand<WaitVieModel>(ChangeWaitingStateExecute);
-            ChangeMemoStateCommand = new DelegateCommand<MemoViewModel>(ChangeMemoStateExecute);
+            DeleteMemoCommand = new DelegateCommand<MemoViewModel>(DeleteMemoExecute);
             ShowAddWaitDialogCommand = new DelegateCommand(ShowAddWaitDialog);
             ShowAddMemoDialogCommand = new DelegateCommand(ShowAddMemoDialog);
-            ShowEditWaitDialogCommand = new DelegateCommand<WaitVieModel>(ShowEditWaitDialogExecute);
-            ShowEditMemoDialogCommand = new DelegateCommand<MemoViewModel>(ShowEditMemoDialogExecute);
+            ShowEditWaitDialogCommand = new DelegateCommand<WaitVieModel>(ShowEditWaitDialogExecute,(w)=>w!=null);
+            ShowEditMemoDialogCommand = new DelegateCommand<MemoViewModel>(ShowEditMemoDialogExecute,(w)=>w!=null);
             NavigateCommand = new DelegateCommand<StackPlaneInfo>(NavigateExecute);
             InitStackPlaneList();
         }
-        public DelegateCommand<MemoViewModel> ChangeMemoStateCommand { get; set; }
+        public DelegateCommand<MemoViewModel> DeleteMemoCommand { get; set; }
         public DelegateCommand<WaitVieModel> ChangeWaitingStateCommand { get; set; }
         public DelegateCommand ShowAddWaitDialogCommand { get; set; }
         public DelegateCommand ShowAddMemoDialogCommand { get; set; }
         public DelegateCommand<WaitVieModel> ShowEditWaitDialogCommand { get; set; }
         public DelegateCommand<MemoViewModel> ShowEditMemoDialogCommand { get; set; }
         public DelegateCommand<StackPlaneInfo> NavigateCommand { get; set; }
-        private readonly IDataService _dataService;
+        private readonly IDataService _dataService;//数据服务
         private IRegionNavigationJournal _navigationJournal;
         private readonly IRegionManager _regionManager;
         private readonly IDialogService _dialogService;
+        private readonly IEventAggregator _eventAggregator;//通知服务
         private StateWaitDTO StateWaitDTO = new StateWaitDTO();
         private List<StackPlaneInfo> _stackPlaneList;
         private ObservableCollection<WaitVieModel> _notResolveWaitInfoList;
-        private ObservableCollection<MemoViewModel> _memoInfoList=new ObservableCollection<MemoViewModel>();
+        private ObservableCollection<MemoViewModel> _memoInfoList = new ObservableCollection<MemoViewModel>();
         private string _accountName;
         private string _memoCount;
         public string AccountName
@@ -78,7 +78,7 @@ namespace Home.ViewModels
                 SetProperty(ref _memoInfoList, value);
                 RaisePropertyChanged(nameof(MemoInfoList));
             }
-        }
+        }  //备忘录列表数据源
         public ObservableCollection<WaitVieModel> NotResolveWaitInfoList
         {
             get { return _notResolveWaitInfoList; }
@@ -87,7 +87,7 @@ namespace Home.ViewModels
                 SetProperty(ref _notResolveWaitInfoList, value);
                 RaisePropertyChanged(nameof(NotResolveWaitInfoList));
             }
-        }
+        }  //待办事项列表数据源  
         public List<StackPlaneInfo> StackPlaneList
         {
             get { return _stackPlaneList; }
@@ -96,9 +96,7 @@ namespace Home.ViewModels
                 SetProperty(ref _stackPlaneList, value);
 
             }
-        }
-
-
+        } 
         /// <summary>
         ///   初始化待办事项数据
         /// </summary>
@@ -106,12 +104,11 @@ namespace Home.ViewModels
         {
             try
             {
-                NotResolveWaitInfoList = new ObservableCollection<WaitVieModel>(_dataService.ViewWaitList.Where(t=>t.Status==0));
-
+                NotResolveWaitInfoList = new ObservableCollection<WaitVieModel>(_dataService.ViewWaitList.Where(t => t.Status == 0&&t.dataStatus!=DataStatus.Delete));
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                _eventAggregator.GetEvent<MesEvent>().Publish(e.Message);
             }
         }
         public void GetMemoinfoList()
@@ -120,16 +117,15 @@ namespace Home.ViewModels
             {
                 MemoInfoList = new ObservableCollection<MemoViewModel>(_dataService.ViewMemoList);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                MessageBox.Show(ex.Message);
+                _eventAggregator.GetEvent<MesEvent>().Publish(e.Message);
             }
         }
-        #region DelegateCommand Execute
-        public void ShowEditWaitDialogExecute(WaitVieModel waitInfoDTO)
+        public void ShowEditWaitDialogExecute(WaitVieModel WaitDTO)
         {
             DialogParameters pairs = new DialogParameters();
-            pairs.Add("oldValue", waitInfoDTO);
+            pairs.Add("oldValue", WaitDTO);
             _dialogService.Show("EditWaitUcView", pairs, callback =>
             {
                 if (callback.Result == ButtonResult.OK)
@@ -139,41 +135,36 @@ namespace Home.ViewModels
 
                     if (OldValue.Status != newValue.Status || OldValue.Content != newValue.Content || OldValue.Title != newValue.Title)
                     {
-                        waitInfoDTO.Title = newValue.Title;
-                        waitInfoDTO.Content = newValue.Content;
-                        waitInfoDTO.Status = newValue.Status;
-                        if (newValue.Status==1)
-                        NotResolveWaitInfoList.Remove(OldValue);
-
+                        WaitDTO.Title = newValue.Title;
+                        WaitDTO.Content = newValue.Content;
+                        WaitDTO.Status = newValue.Status;
+                        WaitDTO.dataStatus = DataStatus.Alter;
+                        if (newValue.Status == 1)
+                        {
+                            OldValue.dataStatus = DataStatus.Delete;
+                            NotResolveWaitInfoList.Remove(OldValue);
+                        }
                         RefreshStackPlaneList();
-                        try
-                        {
-                            ApiResponse response = _dataService.UpDataWait(WaitVieModel.ConvertToWaitInfoDTO(newValue));
-                        }
-                        catch (Exception)
-                        {
-                            //通知                       
-                        }
                     }
                 }
             });
         }
-        public void ShowEditMemoDialogExecute(MemoViewModel memoInfoDTO)
+        public void ShowEditMemoDialogExecute(MemoViewModel MemoDTO)
         {
             DialogParameters pairs = new DialogParameters();
-            pairs.Add("oldValue", memoInfoDTO);
+            pairs.Add("oldValue", MemoDTO);
             _dialogService.Show("EditMemoUcView", pairs, callback =>
             {
                 if (callback.Result == ButtonResult.OK)
                 {
-                    MemoInfoDTO OldValue = callback.Parameters.GetValue<MemoInfoDTO>("oldValue");
-                    MemoInfoDTO newValue = callback.Parameters.GetValue<MemoInfoDTO>("newValue");
+                    MemoDTO OldValue = callback.Parameters.GetValue<MemoDTO>("oldValue");
+                    MemoDTO newValue = callback.Parameters.GetValue<MemoDTO>("newValue");
                     if (OldValue.Content != newValue.Content || OldValue.Title != newValue.Title)
                     {
-                        memoInfoDTO.Title = newValue.Title;
-                        memoInfoDTO.Content = newValue.Content;
+                        MemoDTO.Title = newValue.Title;
+                        MemoDTO.Content = newValue.Content;
+                        MemoDTO.dataStatus = DataStatus.Alter;
                         RefreshStackPlaneList();
-                        ApiResponse response = _dataService.UpDataMemo(MemoViewModel.ConvertToMemoInfoDTO(memoInfoDTO));
                     }
                 }
             });
@@ -181,18 +172,22 @@ namespace Home.ViewModels
         /// <summary>
         /// 改变WaitStatus
         /// </summary>
-        /// <param name="waitInfoDTO"></param>
-        public async void ChangeWaitingStateExecute(WaitVieModel waitInfoDTO)
+        /// <param name="WaitDTO"></param>
+        public async void ChangeWaitingStateExecute(WaitVieModel WaitDTO)
         {
-            waitInfoDTO.dataStatus = DataStatus.Alter;
-
+            WaitDTO.dataStatus = DataStatus.Alter;
+            WaitDTO.Status = 1;
             await Task.Delay(300);
-            NotResolveWaitInfoList.Remove(waitInfoDTO);
-
+            NotResolveWaitInfoList.Remove(WaitDTO);
+            RefreshStackPlaneList();
         }
-        private void ChangeMemoStateExecute(MemoViewModel model)
+        private async void DeleteMemoExecute(MemoViewModel model)
         {
-            
+            model.dataStatus = DataStatus.Delete;
+            await Task.Delay(300);
+            MemoInfoList.Remove(model);
+            _dataService.ViewMemoList.Remove(model);
+            RefreshStackPlaneList();
         }
         public void ShowAddMemoDialog()
         {
@@ -200,14 +195,12 @@ namespace Home.ViewModels
             {
                 if (callback.Result == ButtonResult.OK)
                 {
-                    var memoInfoDTO = callback.Parameters.GetValue<MemoViewModel>("MemoInfoDTO");                
-                    MemoInfoList.Add(memoInfoDTO);                   
+                    var MemoDTO = callback.Parameters.GetValue<MemoViewModel>("MemoDTO");
+                    MemoDTO.AccountInfoId = _dataService.GetID();
+                    MemoDTO.dataStatus = DataStatus.Add;
+                    _dataService.ViewMemoList.Add(MemoDTO);
+                    MemoInfoList.Add(MemoDTO);
                     RefreshStackPlaneList();
-                    ApiResponse response = _dataService.AddMemo(MemoViewModel.ConvertToMemoInfoDTO(memoInfoDTO));
-                    if (response.ResultCode == Result.Success)
-                    {
-                        //添加成功
-                    }
                 }
             });
         }
@@ -217,39 +210,25 @@ namespace Home.ViewModels
              {
                  if (callback.Result == ButtonResult.OK)
                  {
-                     var waitInfoDTO = callback.Parameters.GetValue<WaitVieModel>("WaitInfoDTO");
-                     if (waitInfoDTO.Status==0)
-                     NotResolveWaitInfoList.Add(new WaitVieModel() {Content=waitInfoDTO.Content,Id=waitInfoDTO.Id,Status=waitInfoDTO.Status,Title=waitInfoDTO.Title });
-                     var response = _dataService.AddWait(WaitVieModel.ConvertToWaitInfoDTO(waitInfoDTO));
-                     if (response.ResultCode == Result.Success)
+                     var WaitDTO = callback.Parameters.GetValue<WaitVieModel>("WaitDTO");
+                     WaitDTO.AccountInfoId = _dataService.GetID();
+                     WaitDTO.dataStatus = DataStatus.Add;
+                     if (WaitDTO.Status == 0)
                      {
-                         if (waitInfoDTO.Status == 1)
-                         {
-                             StateWaitDTO.FinishCount += 1;
-                         }
-                         StateWaitDTO.WaitCount += 1;
+                         NotResolveWaitInfoList.Add(WaitDTO);
                      }
+                     _dataService.ViewWaitList.Add(WaitDTO);
                      RefreshStackPlaneList();
                  }
              });
         }
-        #endregion
-
-        #region Command Method
         /// <summary>
         /// 刷新 界面Plane数据
         /// </summary>
         private void RefreshStackPlaneList()
         {
-            try
-            {
-                StateWaitDTO.FinishCount =_dataService.GetWaitFinishCount();
-                StateWaitDTO.WaitCount = _dataService.GetWaitCount();
-            }
-            catch (Exception)
-            {
-
-            }
+            StateWaitDTO.FinishCount = _dataService.GetWaitFinishCount();
+            StateWaitDTO.WaitCount = _dataService.GetWaitCount();
             if (StateWaitDTO.WaitCount != 0)
                 StateWaitDTO.FinishRate = (StateWaitDTO.FinishCount * 100.00 / StateWaitDTO.WaitCount).ToString("f2") + "%";
 
@@ -269,15 +248,6 @@ namespace Home.ViewModels
             StackPlaneList.Add(new StackPlaneInfo() { Icon = "ChartLineVariant", ItemName = "完成比例", Result = "90%", BackGroundColor = "#FF02C6DC", TextView = "失 败" });
             StackPlaneList.Add(new StackPlaneInfo() { Icon = "PlayListStar", ItemName = "备忘录", Result = "200", BackGroundColor = "#FFFFA000", TextView = "失 败" });
             RefreshStackPlaneList();
-        }
-        #endregion
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-
         }
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
@@ -319,6 +289,14 @@ namespace Home.ViewModels
                     _navigationJournal = callback.Context.NavigationService.Journal;
                 }, pair);
             }
+        }
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+
         }
     }
 }

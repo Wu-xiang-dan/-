@@ -8,7 +8,7 @@ using Prism.Events;
 
 namespace NoteBook.MegEvents
 {
-    class MesEvent:PubSubEvent<string>
+   public class MesEvent:PubSubEvent<string>
     {
     }
 }

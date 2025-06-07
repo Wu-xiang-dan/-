@@ -5,25 +5,17 @@ using Prism.Mvvm;
 using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Collections.Generic;
-using System.Windows;
-using NoteBook.HttpClients;
 using NoteBook.ViewModels;
 using NoteBook.Models;
+using Prism.Events;
+using NoteBook.MegEvents;
 namespace Memo.ViewModels
 {
     class MemoUcViewModel : BindableBase, INavigationAware
     {
         private IDataService _dataService;
+        private IEventAggregator _eventAggregator;
         private ObservableCollection<MemoViewModel> _memoInfoList;//Memo显示数据
-        private Visibility _visibility=Visibility.Hidden;
-        public Visibility Visibility
-        {
-            get { return _visibility; }
-            set { _visibility = value;
-                RaisePropertyChanged(nameof(Visibility));
-            }
-        }
         private string _searchTitle;
         public string SearchTitle
         {
@@ -47,6 +39,7 @@ namespace Memo.ViewModels
         public DelegateCommand ShowAddMemoDialogCommand { get; set; }
         public DelegateCommand ShowRightDialogCommand { get; set; }
         public DelegateCommand UpDataMemoListCommand { get; set; }
+        public DelegateCommand AddMomoCommad { get; set; }
         public DelegateCommand<MemoViewModel> DeleteMemoCommand { get; set; }
         public ObservableCollection<MemoViewModel> MemoInfoList
         {
@@ -57,9 +50,18 @@ namespace Memo.ViewModels
                 RaisePropertyChanged(nameof(MemoInfoList));
             }
         }
-        public MemoUcViewModel(IDataService dataService)
+        private MemoViewModel _memo;
+        public MemoViewModel Memo
+        {
+            get { return _memo; }
+            set { _memo = value;
+               RaisePropertyChanged(nameof(Memo));
+            }
+        }
+        public MemoUcViewModel(IDataService dataService,IEventAggregator eventAggregator)
         {
             this._dataService = dataService;
+            _eventAggregator = eventAggregator;
             UpDataMemoListCommand = new DelegateCommand(UpDataMemoList);
             ShowAddMemoDialogCommand = new DelegateCommand(ShowAddMemoDialog);
             DeleteMemoCommand = new DelegateCommand<MemoViewModel>(DeleteWaitEecute);
@@ -81,12 +83,23 @@ namespace Memo.ViewModels
             var SearchResult= new ObservableCollection<MemoViewModel>(MemoInfoList.Where(t => t.Title.Contains(SearchTitle)));
             if (SearchResult.Count==0)
             {
-                Visibility= Visibility.Visible;
+                _eventAggregator.GetEvent<MesEvent>().Publish("未查询到相关备忘录数据!");
                 MemoInfoList = SearchResult;
                 return;
             }
             MemoInfoList = SearchResult;
-            Visibility = Visibility.Hidden;
+        }
+        public void AddMomoExcute()
+        {
+            if (string.IsNullOrEmpty(Memo.Content) || string.IsNullOrEmpty(Memo.Title))
+            {
+                return;
+            }
+            MemoViewModel newmemo = Memo.Clone();
+            newmemo.dataStatus = DataStatus.Add;
+            newmemo.AccountInfoId = _dataService.GetID();
+            MemoInfoList.Add(new MemoViewModel() { Content = Memo.Content, Title= Memo.Title });
+            _dataService.ViewMemoList.Add(newmemo);
         }
         public void DeleteWaitEecute(MemoViewModel memo)
         {
@@ -102,8 +115,7 @@ namespace Memo.ViewModels
             return true;
         }
         public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-     
+        {     
         }
     }
 }

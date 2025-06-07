@@ -11,50 +11,43 @@ namespace NoteBook.Data
 {
     public class JsonSerializerService : IJsonSerializerService
     {
-        public List<WaitVieModel> LoadingWaitsJson()
+        public async Task<List<WaitVieModel>> LoadingWaitsJsonAsync()
         {
             string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             string appFolder = Path.Combine(appDataPath, "NoteBookApp");
             Directory.CreateDirectory(appFolder); // 提前创建目录
             string jsonPath = Path.Combine(appFolder, "Waits.json");
-            if (!File.Exists(jsonPath))
-            {
-                // 文件不存在，返回空列表（首次运行时初始化）
+            if (!File.Exists(jsonPath))// 文件不存在，返回空列表（首次运行时初始化）           
                 return new List<WaitVieModel>();
-            }
+
             try
             {
-                string json = File.ReadAllText(jsonPath);
+                string json = await File.ReadAllTextAsync(jsonPath);
                 return JsonConvert.DeserializeObject<List<WaitVieModel>>(json) ?? new List<WaitVieModel>();
             }
             catch (JsonException ex)
             {
-                // 文件存在但格式错误，重置为空列表（避免损坏数据影响程序）
                 Console.WriteLine($"JSON解析错误，重置文件：{ex.Message}");
                 File.Delete(jsonPath); // 删除损坏文件
                 return new List<WaitVieModel>();
             }
-
         }
-        public List<MemoViewModel> LoadingMemosJson()
+        public async Task<List<MemoViewModel>> LoadingMemosJsonAsync()
         {
             string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             string appFolder = Path.Combine(appDataPath, "NoteBookApp");
             Directory.CreateDirectory(appFolder); // 提前创建目录
-            string jsonPath = Path.Combine(appFolder, "Waits.json");
+            string jsonPath = Path.Combine(appFolder, "Memos.json");
             if (!File.Exists(jsonPath))
-            {
-                // 文件不存在，返回空列表（首次运行时初始化）
                 return new List<MemoViewModel>();
-            }
+
             try
             {
-                string json = File.ReadAllText(jsonPath);
+                string json = await File.ReadAllTextAsync(jsonPath);
                 return JsonConvert.DeserializeObject<List<MemoViewModel>>(json) ?? new List<MemoViewModel>();
             }
             catch (JsonException ex)
             {
-                // 文件存在但格式错误，重置为空列表（避免损坏数据影响程序）
                 Console.WriteLine($"JSON解析错误，重置文件：{ex.Message}");
                 File.Delete(jsonPath); // 删除损坏文件
                 return new List<MemoViewModel>();
@@ -72,26 +65,25 @@ namespace NoteBook.Data
                 string json = JsonConvert.SerializeObject(waits, Formatting.Indented);
                 File.WriteAllText(jsonPath, json);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                // 可以添加更多的错误处理逻辑，如记录日志或提示用户
+               
             }
         }
-        public void SaveMemosToJson(List<MemoViewModel> memos)
+        public void  SaveMemosToJson(List<MemoViewModel> memo)
         {
             string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             string appFolder = Path.Combine(appDataPath, "NoteBookApp");
             Directory.CreateDirectory(appFolder); // 确保目录存在
             string jsonPath = Path.Combine(appFolder, "Memos.json"); // 修正为Memos.json
-
             try
             {
-                string json = JsonConvert.SerializeObject(memos, Formatting.Indented);
+                string json = JsonConvert.SerializeObject(memo, Formatting.Indented);
                 File.WriteAllText(jsonPath, json);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                // 可以添加更多的错误处理逻辑，如记录日志或提示用户
+                
             }
         }
     }

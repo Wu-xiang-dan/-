@@ -33,3 +33,4 @@ C:\Users\86132\Desktop\C#\NoteBook\NoteBook\obj\Debug\net6.0-windows\refint\Note
 C:\Users\86132\Desktop\C#\NoteBook\NoteBook\obj\Debug\net6.0-windows\NoteBook.pdb
 C:\Users\86132\Desktop\C#\NoteBook\NoteBook\obj\Debug\net6.0-windows\NoteBook.genruntimeconfig.cache
 C:\Users\86132\Desktop\C#\NoteBook\NoteBook\obj\Debug\net6.0-windows\ref\NoteBook.dll
+C:\Users\86132\Desktop\C#\NoteBook\NoteBook\obj\Debug\net6.0-windows\NoteBook.sourcelink.json

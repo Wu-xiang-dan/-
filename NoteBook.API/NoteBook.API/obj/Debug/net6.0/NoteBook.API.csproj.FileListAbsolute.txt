@@ -72,3 +72,4 @@ C:\Users\86132\Desktop\C#\NoteBook\NoteBook.API\NoteBook.API\obj\Debug\net6.0\No
 C:\Users\86132\Desktop\C#\NoteBook\NoteBook.API\NoteBook.API\obj\Debug\net6.0\ref\NoteBook.API.dll
 C:\Users\86132\Desktop\C#\NoteBook\NoteBook.API\NoteBook.API\bin\Debug\net6.0\AutoMapper.dll
 C:\Users\86132\Desktop\C#\NoteBook\NoteBook.API\NoteBook.API\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\86132\Desktop\C#\NoteBook\NoteBook.API\NoteBook.API\obj\Debug\net6.0\NoteBook.API.sourcelink.json

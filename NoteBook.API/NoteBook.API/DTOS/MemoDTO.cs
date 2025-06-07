@@ -4,10 +4,8 @@
     {
         public int MemoID { get; set; }
         public int AccountInfoId { get; set; }
-        public int AccountID { get; set; }
-        public string Title { get; set; }
-        public string Content { get; set; }
-        public DataStatus status = DataStatus.Normal;
+        public string? Title { get; set; }
+        public string? Content { get; set; }
     }
     public enum DataStatus
     {
